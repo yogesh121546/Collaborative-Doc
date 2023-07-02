@@ -28,7 +28,7 @@ io.on('connection', async(socket) => {
   socket.on('message', async(_data,_socket_id) => {
     try{
       console.log(_socket_id);
-      const updated= await USER.findOneAndUpdate({socket_id:_socket_id},{data:_data})
+      const updated= await USER.findOneAndUpdate({socket_id:_socket_id},{data:_data},{new:true})
       console.log(updated);
       console.log(_data);
     }catch(error){
