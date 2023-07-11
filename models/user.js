@@ -1,14 +1,23 @@
 const mongoose= require('mongoose');
-
-const user = new mongoose.Schema({
-    socket_id: {
+const document_schema = require('./document')
+const user_schema = new mongoose.Schema({
+    email: {
         type: String,
         required: true 
     },
-    data: {
+    Docs:{
+        type: [mongoose.SchemaTypes.ObjectId],
+        ref:'DOCUMENT',
+        default:[]
+    },
+      username:{
         type: String,
-        default: null
+        required: true
+    },
+    pass_hash:{
+        type: String,
+        default:null
     }
     //any other fields can be added here
 }) 
-module.exports = mongoose.model('USER',user); 
+module.exports = mongoose.model('USER',user_schema); 
