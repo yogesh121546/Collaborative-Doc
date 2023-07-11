@@ -27,6 +27,7 @@ io.use(async(socket,next) => {
             
             socket.join(docId);
             socket.data.room=docId;
+            socket.data.email=email;
             const connected_clients = io.sockets.adapter.rooms.get(docId).size;
             if(connected_clients==1){
               console.log("created doc storage")
@@ -78,6 +79,16 @@ io.on('connection',(socket) => {
         socket.emit("connect_error",new Error("unauthorised access!"));
       } 
     }) 
+
+    socket.on("share_doc",async(user,docId)=>{
+      if(socket.rooms.has(docId)){
+        const doc = DOCUMENT.find({_id:docId});
+        doc.shared_users.push(user);
+        await doc.save();
+        console.log(`new user:${user} added to doc:${docId}`);
+      }
+    })
+
     socket.on("disconnect", (reason) => {
       console.log({socket_id:socket.id,
                    room:socket.data.room,

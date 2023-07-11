@@ -57,6 +57,20 @@ document.getElementById("w3review").oninput = function() {
   i++;
 };
 
+document.getElementById("share_doc_add_button").addEventListener("click",function(){
+  const email = document.getElementById("share_doc_input_text").value;
+  socket.emit("share_doc",email,docId);
+  console.log(`shared the doc with user:${email}`);
+})
+
+document.getElementById("sharedpng").addEventListener("click",function(){
+  document.getElementsByClassName("share_doc_root")[0].style.display="block";
+})
+
+document.getElementsByClassName("cross_sign")[0].addEventListener("click",function(){
+  document.getElementsByClassName("share_doc_root")[0].style.display="none";
+})
+
 
 
 

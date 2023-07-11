@@ -8,11 +8,26 @@
     <link rel="stylesheet" href="document.css">
 </head>
 <body>
-<h1 id="demo">ONLINE NOTE SHARING</h1>
+    <ul>
+        <li><a class="active" href="https://socket-implementation.onrender.com">Home</a></li>
+        <li><a href="#news">News</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li id="sharedpng"><img id="share_user" src="share_user.png" alt="share"></li>
+    </ul>
+<h1>ONLINE NOTE SHARING</h1>
 <textarea id="w3review" name="w3review" rows="25" cols="50" style="border-radius:10px;">
 
 </textarea>
-<div class="share_icon"><img id="share_user" src="share_user.png" alt="share"></div>
+
+<div class="share_doc_root">
+    <div class="cross_sign_share_doc">
+        <div class="cross_sign"></div>
+    </div>
+    <div class="share_doc_input_root">
+        <input type="text" id="share_doc_input_text" class="share_doc_input" name="email" placeholder="Email">
+        <button id="share_doc_add_button" class="share_doc_input">add</button>
+    </div>
+</div>
 <script src="document.js"></script>
 </body>
 </html>
