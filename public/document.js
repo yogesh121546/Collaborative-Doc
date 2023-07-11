@@ -15,7 +15,8 @@ console.log({docId:docId});
 console.log({cookie:document.cookie});
 
 //socket connection to server
-const socket = io("http://localhost:3000",{query:`${document.cookie}&docId=${docId}`}); 
+// const socket = io("http://localhost:3000",{query:`${document.cookie}&docId=${docId}`}); 
+const socket = io("https://socket-implementation.onrender.com",{query:`${document.cookie}&docId=${docId}`}); 
 
 
 //data to the server
@@ -59,8 +60,6 @@ document.getElementById("w3review").oninput = function() {
 
 
 
-// If the position of the cursor is at the very last character inside the input,
-// this will result in 3
-alert(position);
+
   
 
