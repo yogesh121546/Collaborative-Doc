@@ -9,7 +9,7 @@ const generateJwtToken = require("../utils/generateJWT");
 
 const login = async_wrapper(async(req,res)=>{
     const {email,password} = req.body;
-    const {valid} = await emailValidator.validate(email);
+    const valid = await emailValidator.validate(email);
     console.log(valid);
     if(!valid){
         throw new customError("invalid email address",StatusCodes.BAD_REQUEST);
