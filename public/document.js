@@ -57,6 +57,8 @@ document.getElementById("w3review").oninput = function() {
   i++;
 };
 
+document.getElementById("w3review").oninput = sendData;
+
 
 
 
