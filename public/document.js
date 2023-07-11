@@ -5,7 +5,7 @@
 let flag=0;
 let timeout=[];
 let i=0;
-const DBSaveInterval=10;
+const DBSaveInterval=250;
 let client_data=null;
 
 //url path query parameters
