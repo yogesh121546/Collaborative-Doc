@@ -5,7 +5,7 @@
 let flag=0;
 let timeout=[];
 let i=0;
-const DBSaveInterval=250;
+const DBSaveInterval=500;
 let client_data=null;
 
 //url path query parameters
@@ -57,7 +57,7 @@ document.getElementById("w3review").oninput = function() {
   i++;
 };
 
-// document.getElementById("w3review").oninput = sendData;
+
 
 
 
