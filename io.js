@@ -82,9 +82,7 @@ io.on('connection',(socket) => {
 
     socket.on("share_doc",async(user,docId)=>{
       if(socket.rooms.has(docId)){
-        const doc = await DOCUMENT.find({_id:docId});
-        doc.shared_users.push(user);
-        await doc.save();
+        await DOCUMENT.find({_id:docId},{"$push":{shared_users:[user]}});
         console.log(`new user:${user} added to doc:${docId}`);
       }
     })
