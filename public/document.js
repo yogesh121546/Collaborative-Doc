@@ -5,7 +5,7 @@
 let flag=0;
 let timeout=[];
 let i=0;
-const DBSaveInterval=200;
+const DBSaveInterval=10;
 let client_data=null;
 
 //url path query parameters
@@ -46,18 +46,18 @@ socket.on("connect_error",(error)=>{
 });
 
 // send a message to the server on input activity delay of 300ms 
-// document.getElementById("w3review").oninput = function() {
-//   if(flag==0){
-//     flag=1;
-//   }
-//   else{
-//     clearTimeout(timeout[i-1])
-//   }
-//   timeout[i] = setTimeout(sendData,DBSaveInterval);
-//   i++;
-// };
+document.getElementById("w3review").oninput = function() {
+  if(flag==0){
+    flag=1;
+  }
+  else{
+    clearTimeout(timeout[i-1])
+  }
+  timeout[i] = setTimeout(sendData,DBSaveInterval);
+  i++;
+};
 
-document.getElementById("w3review").oninput = sendData;
+// document.getElementById("w3review").oninput = sendData;
 
 
 
