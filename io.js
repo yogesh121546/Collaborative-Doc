@@ -31,19 +31,22 @@ io.use(async(socket,next) => {
             const connected_clients = io.sockets.adapter.rooms.get(docId).size;
             if(connected_clients==1){
               console.log("created doc storage")
-              const a = Document[0];
-              a['online_users']=[];
-              a.online_users.push(email);
-              a.online_users.push("hello@gmail.com");
-              console.log(a);
+              // const a = Document[0];
+              // a.online_users.push("hello@gmail.com");
               console.log(Document[0]);
               doc_map.set(docId,Document[0]);
-              doc_storage.push(Document[0]);
+              // doc_storage.push(Document[0]);
             }
+            const DOC = doc_map.get(docId)['online_users']=[];
+            DOC.online_users.push(email);
             console.log(`clients connected: ${connected_clients}`); 
-            console.log("data:",doc_map.get(docId).data);
-            socket.emit("room-server","loaded the document",doc_map.get(docId).data);
-            io.to(docId).emit("room-server",`socket_id:${socket.id} joined the room:${docId}`,doc_map.get(docId).data);
+      
+            console.log("data:",DOC.data);
+            const metaDataDoc={
+              online_users:DOC.online_users
+            }
+            socket.emit("room-server","loaded the document",DOC.data,metaDataDoc);
+            io.to(docId).emit("room-server",`socket_id:${socket.id} joined the room:${docId}`,DOC.data,metaDataDoc);
            // console.log(`email: ${email} joined the room :${docId}`); 
             console.log({socketID:socket.id,email:email,rooms:socket.rooms}); 
             next();
@@ -97,8 +100,8 @@ io.on('connection',(socket) => {
 
                    if(!io.sockets.adapter.rooms.has(socket.data.room)){
                     //sendData to the server
-                    const removeIndex = doc_storage.findIndex( doc => doc._id == socket.data.room );
-                    doc_storage.splice( removeIndex, 1 );
+                    // const removeIndex = doc_storage.findIndex( doc => doc._id == socket.data.room );
+                    // doc_storage.splice( removeIndex, 1 );
                     const updatedoc = await DOCUMENT.findOneAndUpdate({_id:socket.data.room},doc_map.get(socket.data.room));
                     doc_map.delete(socket.data.room);
                     console.log(doc_map);

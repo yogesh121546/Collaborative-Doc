@@ -35,9 +35,11 @@ const sendData =()=>{
 }
 
 //data from the server 
-socket.on("room-server",(message,data)=>{
+socket.on("room-server",(message,data,metadata)=>{
   console.log(message); 
+  console.log(metadata);
   document.getElementById("w3review").value = data;
+  
 });
 
 //erro handling 
