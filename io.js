@@ -33,11 +33,12 @@ io.use(async(socket,next) => {
               console.log("created doc storage")
               // const a = Document[0];
               // a.online_users.push("hello@gmail.com");
+              doc_map.get(docId)['online_users']=[];
               console.log(Document[0]);
               doc_map.set(docId,Document[0]);
               // doc_storage.push(Document[0]);
             }
-            const DOC = doc_map.get(docId)['online_users']=[];
+            const DOC = doc_map.get(docId);
             DOC.online_users.push(email);
             console.log(`clients connected: ${connected_clients}`); 
       
