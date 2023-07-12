@@ -68,10 +68,9 @@ io.on('connection',(socket) => {
     console.log(doc_map);
     console.log(`A new client connected with socket id: ${socket.id}`)
     socket.on("message_sent",(data,docId)=>{
-      // const docIndex = doc_storage.findIndex( doc => doc._id == socket.data.room );
-      // doc_storage[docIndex].data=data;
-      doc_map.get(docId).data=data;
-      data_storage=data;
+      const DOC = doc_map.get(docId)
+      DOC.data=data;
+      DOC.updated_at.push({Date:Date.now(),user:socket.data.email,lines:[]});
       if(socket.rooms.has(docId)){
         console.log(`message received from socket_id:${socket.id} to the room: ${docId}`);
         io.to(docId).emit("room-server",`socket_id:${socket.id} sent some message`,data);
