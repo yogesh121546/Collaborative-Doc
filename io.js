@@ -82,12 +82,12 @@ io.on('connection',(socket) => {
 
     socket.on("share_doc",async(user,docId)=>{
       if(socket.rooms.has(docId)){
-        await DOCUMENT.find({_id:docId},{"$push":{shared_users:[user]}});
+        await DOCUMENT.find({_id:docId},{$push:{shared_users:[user]}});
         console.log(`new user:${user} added to doc:${docId}`);
       }
     })
 
-    socket.on("disconnect", (reason) => {
+    socket.on("disconnect", async(reason) => {
       console.log({socket_id:socket.id,
                    room:socket.data.room,
                    reason:reason});
@@ -97,6 +97,7 @@ io.on('connection',(socket) => {
                     //sendData to the server
                     const removeIndex = doc_storage.findIndex( doc => doc._id == socket.data.room );
                     doc_storage.splice( removeIndex, 1 );
+                    const updatedoc = await DOCUMENT.findOneAndUpdate({_id:socket.data.room},doc_map.get(socket.data.room));
                     doc_map.delete(socket.data.room);
                     console.log(doc_map);
                     console.log("deleted doc storage");
