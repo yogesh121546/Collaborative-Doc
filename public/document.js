@@ -15,7 +15,7 @@ console.log({docId:docId});
 console.log({cookie:document.cookie});
 
 //socket connection to server
-const socket = io("http://localhost:3000",{query:`${document.cookie}&docId=${docId}`}); 
+const socket = io("https://socket-implementation.onrender.com",{query:`${document.cookie}&docId=${docId}`}); 
 //const socket = io("https://socket-implementation.onrender.com",{query:`${document.cookie}&docId=${docId}`}); 
 
 
