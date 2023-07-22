@@ -130,3 +130,10 @@ input{
     transform: translate(-50%, -50%);
     font-size: larger;
 }
+#online_users_list{
+    margin:auto;
+    padding:5px;
+    position: relative;
+    top:10%;
+    left:10%;
+}

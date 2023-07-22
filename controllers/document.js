@@ -25,7 +25,7 @@ const getDocument = async_wrapper(async(req,res)=>{
             $and:[
                 {  _id : docId},
                 {   $or:[
-                        {shared_users:{$in:["hello"]}},
+                        {shared_users:{$in:[`${email}`]}},
                         {owner:email},
                     ]
                 },

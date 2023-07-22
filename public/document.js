@@ -15,8 +15,8 @@ console.log({docId:docId});
 console.log({cookie:document.cookie});
 
 //socket connection to server
-// const socket = io("http://localhost:3000",{query:`${document.cookie}&docId=${docId}`}); 
-const socket = io("https://socket-implementation.onrender.com",{query:`${document.cookie}&docId=${docId}`}); 
+const socket = io("http://localhost:3000",{query:`${document.cookie}&docId=${docId}`}); 
+//const socket = io("https://socket-implementation.onrender.com",{query:`${document.cookie}&docId=${docId}`}); 
 
 
 //data to the server
@@ -37,7 +37,9 @@ const sendData =()=>{
 //data from the server 
 socket.on("room-server",(message,data,metadata)=>{
   console.log(message); 
-  console.log(metadata);
+  if(metadata!=undefined){
+    displayOnlineUser(metadata);
+  }
   document.getElementById("w3review").value = data;
   
 });
@@ -73,6 +75,18 @@ document.getElementsByClassName("cross_sign")[0].addEventListener("click",functi
   document.getElementsByClassName("share_doc_root")[0].style.display="none";
 })
 
+function displayOnlineUser(metadata){
+  const ul = document.getElementById("online_users_list");
+  while (ul.firstChild) {
+    ul.firstChild.remove()
+  }
+  metadata.online_users.forEach((element )=> {
+    const li = document.createElement("li");
+    // li.classList("online_user_li");
+    li.innerText=element;
+    ul.appendChild(li);
+  });
+}
 
 
 

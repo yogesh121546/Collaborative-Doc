@@ -33,8 +33,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 //template engine assets
-app.set("view engine","ejs");
-app.use(express.static('public'));
+app.set("view engine","ejs"); 
+app.use(express.static('public')); 
 
 // route specific middlewares
 app.use('/api/v1',express.static('public'));
@@ -63,3 +63,4 @@ const start_server = async()=>{
 }
 start_server();
 
+ 

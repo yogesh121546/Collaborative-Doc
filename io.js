@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
 const DOCUMENT = require('./models/document');
-let data_storage="";
+// const { io } = require('socket.io-client');
 const doc_map = new Map();
-let doc_storage=[];
+
 io.use(async(socket,next) => {
     const access_token=socket.request._query['token'];
     const docId=socket.request._query['docId'];
@@ -14,7 +14,7 @@ io.use(async(socket,next) => {
                 $and:[
                     {  _id : docId},
                     {   $or:[
-                            {shared_users:{$in:["hell"]}},
+                            {shared_users:{$in:[email]}},
                             {owner:email},
                         ]
                     },
@@ -33,13 +33,16 @@ io.use(async(socket,next) => {
               console.log("created doc storage")
               // const a = Document[0];
               // a.online_users.push("hello@gmail.com");
-              doc_map.get(docId)['online_users']=[];
-              console.log(Document[0]);
               doc_map.set(docId,Document[0]);
+              doc_map.get(docId).online_users=[];
+              console.log(doc_map.get(docId));
+              
               // doc_storage.push(Document[0]);
             }
             const DOC = doc_map.get(docId);
-            DOC.online_users.push(email);
+            if(!DOC.online_users.includes(email)){
+              DOC.online_users.push(email);
+            }
             console.log(`clients connected: ${connected_clients}`); 
       
             console.log("data:",DOC.data);
@@ -103,6 +106,7 @@ io.on('connection',(socket) => {
                     //sendData to the server
                     // const removeIndex = doc_storage.findIndex( doc => doc._id == socket.data.room );
                     // doc_storage.splice( removeIndex, 1 );
+                    
                     const updatedoc = await DOCUMENT.findOneAndUpdate({_id:socket.data.room},doc_map.get(socket.data.room));
                     doc_map.delete(socket.data.room);
                     console.log(doc_map);
@@ -111,7 +115,16 @@ io.on('connection',(socket) => {
                     return console.log({room:socket.data.room,clients_connected:0});
                    }
                    const size = io.sockets.adapter.rooms.get(socket.data.room).size;
+                   const DOC = doc_map.get(socket.data.room);
+                   const index = DOC.online_users.indexOf(socket.data.email);
+                   if (index > -1) { // only splice array when item is found
+                     DOC.online_users.splice(index, 1); // 2nd parameter means remove one item only
+                   }
                    
+                   const metaDataDoc={ 
+                     online_users:DOC.online_users
+                   }
+                   io.to(socket.data.room).emit("room-server",`socket_id:${socket.id} left the room:${socket.data.room}`,DOC.data,metaDataDoc);            
       console.log(`clients connected after disconnection: ${size}`); 
     }); 
     console.log(`clients connected to the server: ${Object.keys(io.eio.clients)}`);
