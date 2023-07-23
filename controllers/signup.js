@@ -12,10 +12,10 @@ const send_mail = require('../utils/nodemailer');
 const signup = async_wrapper(async (req,res)=>{
 
     const {email} = req.body;
-    // const validEmail= await emailValidator.validate(email);
-    // if(!validEmail){
-    //     throw new customError("invalid email address",StatusCodes.NOT_ACCEPTABLE);
-    // }
+    const validEmail= await emailValidator.validate(email);
+    if(!validEmail){
+        throw new customError("invalid email address",StatusCodes.NOT_ACCEPTABLE);
+    }
     const otp = generateOtp();
     const user = {
         email: email,
